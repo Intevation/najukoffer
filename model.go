@@ -20,7 +20,7 @@ type termin struct {
 
 func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {
 	queryString :=
-		fmt.Sprintf("SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,von,bis,bundesland,typ,x,y FROM %s", period)
+		fmt.Sprintf("SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,von,bis,bundesland,typ,x,y FROM %s WHERE TYP REGEXP 'NAJU'", period)
 	rows, err := db.Query(
 		queryString,
 	)
