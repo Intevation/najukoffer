@@ -1,6 +1,9 @@
 package main
 
-import "database/sql"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type termin struct {
 	Plz          string  `json:"plz"`
@@ -15,9 +18,11 @@ type termin struct {
 	Y            float32 `json:"y"`
 }
 
-func getTermineFromDB(db *sql.DB) ([]termin, error) {
+func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {
+	queryString :=
+		fmt.Sprintf("SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,von,bis,bundesland,typ,x,y FROM %s", period)
 	rows, err := db.Query(
-		"SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,von,bis,bundesland,typ,x,y FROM today",
+		queryString,
 	)
 
 	if err != nil {

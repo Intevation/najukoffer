@@ -62,9 +62,9 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Write(buf.Bytes())
 }
 
-func getTermine(db *sql.DB) http.HandlerFunc {
+func getTermine(db *sql.DB, period string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		termine, err := getTermineFromDB(db)
+		termine, err := getTermineFromDB(db, period)
 		if err != nil {
 			respondWithError(w, http.StatusInternalServerError, err.Error())
 			return
@@ -119,13 +119,16 @@ func main() {
 	if appAddr != "" {
 		// Run as a local web server
 		//mux.HandleFunc("/termine", isAuthorized(getTermine(db)))
-		mux.HandleFunc("/termine", getTermine(db))
+		mux.HandleFunc("/today", getTermine(db, "today"))
+		mux.HandleFunc("/this_week", getTermine(db, "this_week"))
+		mux.HandleFunc("/this_month", getTermine(db, "this_month"))
+		mux.HandleFunc("/this_year", getTermine(db, "this_year"))
 		log.Println("Listening on " + appAddr + "...")
 		//err = http.ListenAndServe(appAddr, requestLogger(mux))
 		err = http.ListenAndServe(appAddr, mux)
 	} else {
 		// Run as FCGI via standard I/O
-		mux.HandleFunc("/fcgi-bin/time.fcgi/termine", getTermine(db))
+		mux.HandleFunc("/fcgi-bin/time.fcgi/termine", getTermine(db, "today"))
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {
