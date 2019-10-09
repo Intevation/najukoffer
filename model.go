@@ -14,8 +14,8 @@ type termin struct {
 	Bis          string  `json:"bis"`
 	Bundesland   string  `json:"bundesland"`
 	Typ          string  `json:"typ"`
-	X            float32 `json:"x"`
-	Y            float32 `json:"y"`
+	X            float64 `json:"x"`
+	Y            float64 `json:"y"`
 }
 
 func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {

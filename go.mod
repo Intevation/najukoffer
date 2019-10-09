@@ -6,4 +6,6 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/joho/godotenv v1.3.0
+	github.com/paulmach/go.geojson v1.4.0
+	github.com/rs/cors v1.7.0
 )
