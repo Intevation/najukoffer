@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -51,11 +52,14 @@ func respondWithError(w http.ResponseWriter, code int, message string) {
 }
 
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
-	response, _ := json.Marshal(payload)
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	enc.Encode(payload)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	w.Write(response)
+	w.Write(buf.Bytes())
 }
 
 func getTermine(db *sql.DB) http.HandlerFunc {
@@ -114,10 +118,11 @@ func main() {
 
 	if appAddr != "" {
 		// Run as a local web server
-		mux.HandleFunc("/termine", isAuthorized(getTermine(db)))
+		//mux.HandleFunc("/termine", isAuthorized(getTermine(db)))
+		mux.HandleFunc("/termine", getTermine(db))
 		log.Println("Listening on " + appAddr + "...")
-		//	err = http.ListenAndServe(appAddr, mux)
-		err = http.ListenAndServe(appAddr, requestLogger(mux))
+		//err = http.ListenAndServe(appAddr, requestLogger(mux))
+		err = http.ListenAndServe(appAddr, mux)
 	} else {
 		// Run as FCGI via standard I/O
 		mux.HandleFunc("/fcgi-bin/time.fcgi/termine", getTermine(db))
