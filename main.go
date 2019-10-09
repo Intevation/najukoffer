@@ -100,7 +100,7 @@ func main() {
 	var err error
 
 	connectionString :=
-		fmt.Sprintf("%s:%s@/%s", dbUser, dbPasswd, dbName)
+		fmt.Sprintf("%s:%s@/%s?parseTime=true&collation=utf8mb4_general_ci&charset=utf8", dbUser, dbPasswd, dbName)
 
 	db, err := sql.Open("mysql", connectionString)
 
