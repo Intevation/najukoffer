@@ -22,6 +22,7 @@ import (
 )
 
 var appAddr string
+var dbHost string
 var dbUser string
 var dbName string
 var dbPasswd string
@@ -35,6 +36,7 @@ func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	signingKey = []byte(os.Getenv("SIGNINGKEY"))
 	appAddr = os.Getenv("APPADDR")
+	dbHost = os.Getenv("DBHOST")
 	dbName = os.Getenv("DBNAME")
 	dbUser = os.Getenv("DBUSER")
 	dbPasswd = os.Getenv("DBPASSWD")
@@ -129,7 +131,7 @@ func main() {
 	var err error
 
 	connectionString :=
-		fmt.Sprintf("%s:%s@/%s?parseTime=true&collation=utf8mb4_general_ci&charset=utf8", dbUser, dbPasswd, dbName)
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&collation=utf8mb4_general_ci&charset=utf8", dbUser, dbPasswd, dbHost, dbName)
 
 	db, err := sql.Open("mysql", connectionString)
 
@@ -157,7 +159,10 @@ func main() {
 		err = http.ListenAndServe(appAddr, handler)
 	} else {
 		// Run as FCGI via standard I/O
-		mux.HandleFunc("/fcgi-bin/time.fcgi/termine", getTermine(db, "today"))
+		mux.HandleFunc("/fcgi-bin/terminkoffer/today", getTermine(db, "today"))
+		mux.HandleFunc("/fcgi-bin/terminkoffer/this_week", getTermine(db, "this_week"))
+		mux.HandleFunc("/fcgi-bin/terminkoffer/this_month", getTermine(db, "this_month"))
+		mux.HandleFunc("/fcgi-bin/terminkoffer/this_year", getTermine(db, "this_year"))
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {
