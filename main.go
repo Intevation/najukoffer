@@ -101,6 +101,18 @@ func getTermine(db *sql.DB, period string) http.HandlerFunc {
 	}
 }
 
+func getNext6Month(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		termine, err := getNext6MonthFromDB(db)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		respondWithGeoJSON(w, http.StatusOK, termine)
+	}
+}
+
 func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -150,6 +162,7 @@ func main() {
 		mux.HandleFunc("/this_week", getTermine(db, "this_week"))
 		mux.HandleFunc("/this_month", getTermine(db, "this_month"))
 		mux.HandleFunc("/this_year", getTermine(db, "this_year"))
+		mux.HandleFunc("/next_6month", getNext6Month(db))
 		log.Println("Listening on " + appAddr + "...")
 		//err = http.ListenAndServe(appAddr, requestLogger(mux))
 		// cors.Default() setup the middleware with default options being
@@ -163,6 +176,7 @@ func main() {
 		mux.HandleFunc("/fcgi-bin/terminkoffer/this_week", getTermine(db, "this_week"))
 		mux.HandleFunc("/fcgi-bin/terminkoffer/this_month", getTermine(db, "this_month"))
 		mux.HandleFunc("/fcgi-bin/terminkoffer/this_year", getTermine(db, "this_year"))
+		mux.HandleFunc("/fcgi-bin/terminkoffer/next_6month", getNext6Month(db))
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {

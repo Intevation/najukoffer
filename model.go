@@ -43,3 +43,29 @@ func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {
 
 	return termine, nil
 }
+
+func getNext6MonthFromDB(db *sql.DB) ([]termin, error) {
+	queryString := "SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,DATE_FORMAT(von,'%d.%m.%Y %H:%i') as von,DATE_FORMAT(bis,'%d.%m.%Y %H:%i') as bis,bundesland,typ,x,y FROM dates_with_location WHERE date(von) between curdate() and DATE_ADD(curdate(), INTERVAL 6 MONTH) and TYP REGEXP 'NAJU';"
+
+	rows, err := db.Query(
+		queryString,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	termine := []termin{}
+
+	for rows.Next() {
+		var t termin
+		if err := rows.Scan(&t.Plz, &t.Ort, &t.Thema, &t.Beschreibung, &t.Von, &t.Bis, &t.Bundesland, &t.Typ, &t.X, &t.Y); err != nil {
+			return nil, err
+		}
+		termine = append(termine, t)
+	}
+
+	return termine, nil
+}
