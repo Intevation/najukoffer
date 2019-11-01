@@ -11,6 +11,7 @@ import (
 	"runtime"
 
 	"github.com/BjoernSchilberg/najukoffer/kindergruppen"
+	"github.com/BjoernSchilberg/najukoffer/landesverbaende"
 	"github.com/BjoernSchilberg/najukoffer/storchenkoffer"
 	"github.com/BjoernSchilberg/najukoffer/termine"
 	jwt "github.com/dgrijalva/jwt-go"
@@ -103,6 +104,7 @@ func main() {
 		mux.HandleFunc("/next_6month", termine.GetNext6Month(db))
 		mux.HandleFunc("/kindergruppen", kindergruppen.Get())
 		mux.HandleFunc("/storchenkoffer", storchenkoffer.Get())
+		mux.HandleFunc("/landesverbaende", landesverbaende.Get())
 		log.Println("Listening on " + appAddr + "...")
 		//err = http.ListenAndServe(appAddr, requestLogger(mux))
 		// cors.Default() setup the middleware with default options being
@@ -119,6 +121,7 @@ func main() {
 		mux.HandleFunc("/fcgi-bin/terminkoffer/next_6month", termine.GetNext6Month(db))
 		mux.HandleFunc("/fcgi-bin/kindergruppen", kindergruppen.Get())
 		mux.HandleFunc("/fcgi-bin/storchenkoffer", storchenkoffer.Get())
+		mux.HandleFunc("/fcgi-bin/landesverbaende", landesverbaende.Get())
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {

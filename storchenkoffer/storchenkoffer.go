@@ -1,7 +1,6 @@
 package storchenkoffer
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -43,8 +42,7 @@ func getData(url string) ([]storchenkoffer, error) {
 	if error != nil {
 		log.Fatalln(error)
 	}
-	sheet := xlFile.Sheets[2]
-	fmt.Println(sheet.Cols)
+	sheet := xlFile.Sheets[0]
 	derStrochenkoffer := storchenkoffer{}
 	var dieStorchenkoffer []storchenkoffer
 	for i, row := range sheet.Rows {

@@ -1,7 +1,6 @@
 package kindergruppen
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -49,14 +48,13 @@ func getData(url string) ([]kindergruppe, error) {
 		log.Fatalln(error)
 	}
 	sheet := xlFile.Sheets[2]
-	fmt.Println(sheet.Cols)
-	kg := kindergruppe{}
+	dieKindergruppe := kindergruppe{}
 	var kindergruppen []kindergruppe
 	for i, row := range sheet.Rows {
 		if i != 0 {
 			if row != nil {
-				row.ReadStruct(&kg)
-				kindergruppen = append(kindergruppen, kg)
+				row.ReadStruct(&dieKindergruppe)
+				kindergruppen = append(kindergruppen, dieKindergruppe)
 				//fmt.Printf("%+v\n", g)
 			}
 		}

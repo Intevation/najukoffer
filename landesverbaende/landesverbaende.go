@@ -1,7 +1,6 @@
 package landesverbaende
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -13,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Gruppen_aktualisieren&files=Kindergruppen_Daten%20Website_05-2017.xlsx&downloadStartSecret=ldpuu0flwmj"
+var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Landesverb%C3%A4nde&files=NAJU_Landesverband_Geschaeftsstellen.xlsx&downloadStartSecret=69cx4iljv53"
 
 type landesverband struct {
 	Landesverband string  `xlsx:"0"`
@@ -45,8 +44,7 @@ func getData(url string) ([]landesverband, error) {
 	if error != nil {
 		log.Fatalln(error)
 	}
-	sheet := xlFile.Sheets[2]
-	fmt.Println(sheet.Cols)
+	sheet := xlFile.Sheets[0]
 	derLandesverband := landesverband{}
 	var landesverbaende []landesverband
 	for i, row := range sheet.Rows {
