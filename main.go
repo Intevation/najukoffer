@@ -114,14 +114,14 @@ func main() {
 		err = http.ListenAndServe(appAddr, handler)
 	} else {
 		// Run as FCGI via standard I/O
-		mux.HandleFunc("/fcgi-bin/terminkoffer/today", termine.Get(db, "today"))
-		mux.HandleFunc("/fcgi-bin/terminkoffer/this_week", termine.Get(db, "this_week"))
-		mux.HandleFunc("/fcgi-bin/terminkoffer/this_month", termine.Get(db, "this_month"))
-		mux.HandleFunc("/fcgi-bin/terminkoffer/this_year", termine.Get(db, "this_year"))
-		mux.HandleFunc("/fcgi-bin/terminkoffer/next_6month", termine.GetNext6Month(db))
-		mux.HandleFunc("/fcgi-bin/kindergruppen", kindergruppen.Get())
-		mux.HandleFunc("/fcgi-bin/storchenkoffer", storchenkoffer.Get())
-		mux.HandleFunc("/fcgi-bin/landesverbaende", landesverbaende.Get())
+		mux.HandleFunc("/fcgi-bin/najukoffer/today", termine.Get(db, "today"))
+		mux.HandleFunc("/fcgi-bin/najukoffer/this_week", termine.Get(db, "this_week"))
+		mux.HandleFunc("/fcgi-bin/najukoffer/this_month", termine.Get(db, "this_month"))
+		mux.HandleFunc("/fcgi-bin/najukoffer/this_year", termine.Get(db, "this_year"))
+		mux.HandleFunc("/fcgi-bin/najukoffer/next_6month", termine.GetNext6Month(db))
+		mux.HandleFunc("/fcgi-bin/najukoffer/kindergruppen", kindergruppen.Get())
+		mux.HandleFunc("/fcgi-bin/najukoffer/storchenkoffer", storchenkoffer.Get())
+		mux.HandleFunc("/fcgi-bin/najukoffer/landesverbaende", landesverbaende.Get())
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {
