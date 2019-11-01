@@ -2,6 +2,7 @@
 
 - [README](#readme)
   - [Requirements](#requirements)
+  - [Building on file save](#building-on-file-save)
   - [JWT](#jwt)
     - [Generate token with jwt-generator](#generate-token-with-jwt-generator)
     - [Get data](#get-data)
@@ -17,6 +18,12 @@ go get -u -v github.com/go-sql-driver/mysql
 go get -u -v github.com/joho/godotenv
 go get -u -v github.com/paulmach/go.geojson
 go get -u -v github.com/rs/cors
+```
+
+## Building on file save
+
+```shell
+while inotifywait -e close_write *.go; do go build ; done
 ```
 
 ## JWT
