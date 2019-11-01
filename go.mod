@@ -8,4 +8,5 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/paulmach/go.geojson v1.4.0
 	github.com/rs/cors v1.7.0
+	github.com/tealeg/xlsx v1.0.5
 )

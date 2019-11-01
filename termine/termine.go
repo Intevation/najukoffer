@@ -1,8 +1,14 @@
-package main
+package termine
 
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
+	"reflect"
+	"strings"
+
+	"github.com/BjoernSchilberg/terminkoffer/helper"
+	geojson "github.com/paulmach/go.geojson"
 )
 
 type termin struct {
@@ -68,4 +74,51 @@ func getNext6MonthFromDB(db *sql.DB) ([]termin, error) {
 	}
 
 	return termine, nil
+}
+
+func respondWithGeoJSON(w http.ResponseWriter, code int, payload []termin) {
+	featureCollection := geojson.NewFeatureCollection()
+	for _, t := range payload {
+		feature := geojson.NewPointFeature([]float64{t.X, t.Y})
+		e := reflect.ValueOf(&t).Elem()
+		for i := 0; i < e.NumField(); i++ {
+			key := e.Type().Field(i).Name
+			value := e.Field(i).Interface()
+			if key != string("X") && key != string("Y") {
+				feature.SetProperty(strings.ToLower(key), value)
+			}
+		}
+		featureCollection.AddFeature(feature)
+	}
+	s, _ := featureCollection.MarshalJSON()
+	//fmt.Println(string(s))
+	w.Header().Set("Content-Type", "application/geo+json")
+	w.WriteHeader(code)
+	w.Write(s)
+}
+
+// Get: Get dates from given period
+func Get(db *sql.DB, period string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		termine, err := getTermineFromDB(db, period)
+		if err != nil {
+			helper.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		respondWithGeoJSON(w, http.StatusOK, termine)
+	}
+}
+
+// GetNext6Month : Get dates from the coming next 6 month
+func GetNext6Month(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		termine, err := getNext6MonthFromDB(db)
+		if err != nil {
+			helper.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		respondWithGeoJSON(w, http.StatusOK, termine)
+	}
 }
