@@ -10,9 +10,9 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/BjoernSchilberg/terminkoffer/kindergruppen"
-	"github.com/BjoernSchilberg/terminkoffer/storchenkoffer"
-	"github.com/BjoernSchilberg/terminkoffer/termine"
+	"github.com/BjoernSchilberg/najukoffer/kindergruppen"
+	"github.com/BjoernSchilberg/najukoffer/storchenkoffer"
+	"github.com/BjoernSchilberg/najukoffer/termine"
 	jwt "github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"

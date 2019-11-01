@@ -1,4 +1,4 @@
-module github.com/BjoernSchilberg/terminkoffer
+module github.com/BjoernSchilberg/najukoffer
 
 go 1.13
 

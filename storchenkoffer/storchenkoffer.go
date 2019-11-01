@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/BjoernSchilberg/terminkoffer/helper"
+	"github.com/BjoernSchilberg/najukoffer/helper"
 	geojson "github.com/paulmach/go.geojson"
 	"github.com/tealeg/xlsx"
 )
