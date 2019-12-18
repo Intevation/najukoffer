@@ -19,6 +19,8 @@ type termin struct {
 	Von          string  `json:"von"`
 	Bis          string  `json:"bis"`
 	Bundesland   string  `json:"bundesland"`
+	Kontakt      string  `json:"kontakt"`
+	Kontaktdaten string  `json:"kontaktdaten"`
 	Typ          string  `json:"typ"`
 	X            float64 `json:"x"`
 	Y            float64 `json:"y"`
@@ -26,7 +28,7 @@ type termin struct {
 
 func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {
 	queryString :=
-		fmt.Sprintf("SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,von,bis,bundesland,typ,x,y FROM %s WHERE TYP REGEXP 'NAJU'", period)
+		fmt.Sprintf("SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,von,bis,bundesland,eingetragen_von as kontakt,eingetragen_von_kontakt as kontaktdaten,typ,x,y FROM %s WHERE TYP REGEXP 'NAJU'", period)
 	rows, err := db.Query(
 		queryString,
 	)
@@ -41,7 +43,7 @@ func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {
 
 	for rows.Next() {
 		var t termin
-		if err := rows.Scan(&t.Plz, &t.Ort, &t.Thema, &t.Beschreibung, &t.Von, &t.Bis, &t.Bundesland, &t.Typ, &t.X, &t.Y); err != nil {
+		if err := rows.Scan(&t.Plz, &t.Ort, &t.Thema, &t.Beschreibung, &t.Von, &t.Bis, &t.Bundesland, &t.Kontakt, &t.Kontaktdaten, &t.Typ, &t.X, &t.Y); err != nil {
 			return nil, err
 		}
 		termine = append(termine, t)
@@ -51,7 +53,7 @@ func getTermineFromDB(db *sql.DB, period string) ([]termin, error) {
 }
 
 func getNext6MonthFromDB(db *sql.DB) ([]termin, error) {
-	queryString := "SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,DATE_FORMAT(von,'%d.%m.%Y %H:%i') as von,DATE_FORMAT(bis,'%d.%m.%Y %H:%i') as bis,bundesland,typ,x,y FROM dates_with_location WHERE date(von) between curdate() and DATE_ADD(curdate(), INTERVAL 6 MONTH) and TYP REGEXP 'NAJU';"
+	queryString := "SELECT CONVERT(plz,char(5)) as plz,ort,thema,beschreibung,DATE_FORMAT(von,'%d.%m.%Y %H:%i') as von,DATE_FORMAT(bis,'%d.%m.%Y %H:%i') as bis,bundesland,eingetragen_von as kontakt, eingetragen_von_kontakt as kontaktdaten,typ,x,y FROM dates_with_location WHERE date(von) between curdate() and DATE_ADD(curdate(), INTERVAL 6 MONTH) and TYP REGEXP 'NAJU';"
 
 	rows, err := db.Query(
 		queryString,
@@ -67,7 +69,7 @@ func getNext6MonthFromDB(db *sql.DB) ([]termin, error) {
 
 	for rows.Next() {
 		var t termin
-		if err := rows.Scan(&t.Plz, &t.Ort, &t.Thema, &t.Beschreibung, &t.Von, &t.Bis, &t.Bundesland, &t.Typ, &t.X, &t.Y); err != nil {
+		if err := rows.Scan(&t.Plz, &t.Ort, &t.Thema, &t.Beschreibung, &t.Von, &t.Bis, &t.Bundesland, &t.Kontakt, &t.Kontaktdaten, &t.Typ, &t.X, &t.Y); err != nil {
 			return nil, err
 		}
 		termine = append(termine, t)
@@ -97,7 +99,7 @@ func respondWithGeoJSON(w http.ResponseWriter, code int, payload []termin) {
 	w.Write(s)
 }
 
-// Get: Get dates from given period
+// Get : Get dates from given period
 func Get(db *sql.DB, period string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		termine, err := getTermineFromDB(db, period)
