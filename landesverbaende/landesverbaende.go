@@ -9,7 +9,7 @@ import (
 
 	"github.com/BjoernSchilberg/najukoffer/helper"
 	geojson "github.com/paulmach/go.geojson"
-	"github.com/tealeg/xlsx"
+	"github.com/tealeg/xlsx/v3"
 )
 
 var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Landesverb%C3%A4nde&files=NAJU_Landesverband_Geschaeftsstellen.xlsx&downloadStartSecret=69cx4iljv53"
@@ -40,25 +40,28 @@ func getData(url string) ([]landesverband, error) {
 	}
 	//log.Println(string(body))
 
-	xlFile, error := xlsx.OpenBinary(body)
-	if error != nil {
-		log.Fatalln(error)
+	xlFile, err := xlsx.OpenBinary(body)
+	if err != nil {
+		log.Fatalln(err)
 	}
 	sheet := xlFile.Sheets[0]
 	derLandesverband := landesverband{}
 	var landesverbaende []landesverband
-	for i, row := range sheet.Rows {
-		if i != 0 {
-			if row != nil {
-				row.ReadStruct(&derLandesverband)
-				landesverbaende = append(landesverbaende, derLandesverband)
-				//fmt.Printf("%+v\n", g)
-			}
+
+	for i := 0; i < 1048576; i++ {
+		r, err := sheet.Row(i)
+		if err != nil {
+			return nil, err
 		}
+		if r.GetCell(10).Value == "" {
+			break
+		}
+		r.ReadStruct(&derLandesverband)
+		landesverbaende = append(landesverbaende, derLandesverband)
 	}
 	//fmt.Printf("%v", target)
 
-	return landesverbaende, error
+	return landesverbaende, err
 }
 
 // Get : Get kindergruppen

@@ -9,4 +9,5 @@ require (
 	github.com/paulmach/go.geojson v1.4.0
 	github.com/rs/cors v1.7.0
 	github.com/tealeg/xlsx v1.0.5
+	github.com/tealeg/xlsx/v3 v3.2.0
 )

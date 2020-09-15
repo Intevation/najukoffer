@@ -9,7 +9,7 @@ import (
 
 	"github.com/BjoernSchilberg/najukoffer/helper"
 	geojson "github.com/paulmach/go.geojson"
-	"github.com/tealeg/xlsx"
+	"github.com/tealeg/xlsx/v3"
 )
 
 var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Gruppen_aktualisieren&files=Kindergruppen_Daten%20Website_05-2017.xlsx&downloadStartSecret=ldpuu0flwmj"
@@ -43,25 +43,27 @@ func getData(url string) ([]kindergruppe, error) {
 	}
 	//log.Println(string(body))
 
-	xlFile, error := xlsx.OpenBinary(body)
-	if error != nil {
-		log.Fatalln(error)
+	xlFile, err := xlsx.OpenBinary(body)
+	if err != nil {
+		log.Fatalln(err)
 	}
 	sheet := xlFile.Sheets[2]
 	dieKindergruppe := kindergruppe{}
 	var kindergruppen []kindergruppe
-	for i, row := range sheet.Rows {
-		if i != 0 {
-			if row != nil {
-				row.ReadStruct(&dieKindergruppe)
-				kindergruppen = append(kindergruppen, dieKindergruppe)
-				//fmt.Printf("%+v\n", g)
-			}
+	rows := sheet.MaxRow
+	log.Println(rows)
+	for i := 0; i < 1048576; i++ {
+		r, err := sheet.Row(i)
+		if err != nil {
+			return nil, err
 		}
+		if r.GetCell(13).Value == "" {
+			break
+		}
+		r.ReadStruct(&dieKindergruppe)
+		kindergruppen = append(kindergruppen, dieKindergruppe)
 	}
-	//fmt.Printf("%v", target)
-
-	return kindergruppen, error
+	return kindergruppen, err
 }
 
 // Get : Get kindergruppen

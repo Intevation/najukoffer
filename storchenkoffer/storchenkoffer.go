@@ -9,7 +9,7 @@ import (
 
 	"github.com/BjoernSchilberg/najukoffer/helper"
 	geojson "github.com/paulmach/go.geojson"
-	"github.com/tealeg/xlsx"
+	"github.com/tealeg/xlsx/v3"
 )
 
 var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Storchkoffer_Ausleihstation&files=Storchenkoffer_Ausleihstationen.xlsx&downloadStartSecret=67dcesra3mm"
@@ -38,25 +38,28 @@ func getData(url string) ([]storchenkoffer, error) {
 	}
 	//log.Println(string(body))
 
-	xlFile, error := xlsx.OpenBinary(body)
-	if error != nil {
-		log.Fatalln(error)
+	xlFile, err := xlsx.OpenBinary(body)
+	if err != nil {
+		log.Fatalln(err)
 	}
 	sheet := xlFile.Sheets[0]
 	derStrochenkoffer := storchenkoffer{}
 	var dieStorchenkoffer []storchenkoffer
-	for i, row := range sheet.Rows {
-		if i != 0 {
-			if row != nil {
-				row.ReadStruct(&derStrochenkoffer)
-				dieStorchenkoffer = append(dieStorchenkoffer, derStrochenkoffer)
-				//fmt.Printf("%+v\n", g)
-			}
+
+	for i := 0; i < 1048576; i++ {
+		r, err := sheet.Row(i)
+		if err != nil {
+			return nil, err
 		}
+		if r.GetCell(8).Value == "" {
+			break
+		}
+		r.ReadStruct(&derStrochenkoffer)
+		dieStorchenkoffer = append(dieStorchenkoffer, derStrochenkoffer)
 	}
 	//fmt.Printf("%v", target)
 
-	return dieStorchenkoffer, error
+	return dieStorchenkoffer, err
 }
 
 // Get : Get all storchenkoffer
