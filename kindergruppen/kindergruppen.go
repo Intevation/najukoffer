@@ -52,13 +52,13 @@ func getData(url string) ([]kindergruppe, error) {
 	var kindergruppen []kindergruppe
 	rows := sheet.MaxRow
 	log.Println(rows)
-	for i := 0; i < 1048576; i++ {
+	for i := 0; i < rows; i++ {
 		r, err := sheet.Row(i)
 		if err != nil {
 			return nil, err
 		}
 		if r.GetCell(13).Value == "" {
-			break
+			continue
 		}
 		r.ReadStruct(&dieKindergruppe)
 		kindergruppen = append(kindergruppen, dieKindergruppe)
