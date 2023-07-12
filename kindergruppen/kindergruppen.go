@@ -41,7 +41,7 @@ func getData(url string) ([]kindergruppe, error) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	//log.Println(string(body))
+  //log.Println(string(body))
 
 	xlFile, err := xlsx.OpenBinary(body)
 	if err != nil {
@@ -51,7 +51,6 @@ func getData(url string) ([]kindergruppe, error) {
 	dieKindergruppe := kindergruppe{}
 	var kindergruppen []kindergruppe
 	rows := sheet.MaxRow
-	log.Println(rows)
 	for i := 0; i < rows; i++ {
 		r, err := sheet.Row(i)
 		if err != nil {

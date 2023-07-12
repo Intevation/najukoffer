@@ -10,6 +10,7 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/BjoernSchilberg/najukoffer/insektenrucksaecke"
 	"github.com/BjoernSchilberg/najukoffer/kindergruppen"
 	"github.com/BjoernSchilberg/najukoffer/landesverbaende"
 	"github.com/BjoernSchilberg/najukoffer/storchenkoffer"
@@ -105,6 +106,7 @@ func main() {
 		mux.HandleFunc("/kindergruppen", kindergruppen.Get())
 		mux.HandleFunc("/storchenkoffer", storchenkoffer.Get())
 		mux.HandleFunc("/landesverbaende", landesverbaende.Get())
+		mux.HandleFunc("/insektenrucksaecke", insektenrucksaecke.Get())
 		log.Println("Listening on " + appAddr + "...")
 		//err = http.ListenAndServe(appAddr, requestLogger(mux))
 		// cors.Default() setup the middleware with default options being
@@ -122,6 +124,7 @@ func main() {
 		mux.HandleFunc("/fcgi-bin/najukoffer/kindergruppen", kindergruppen.Get())
 		mux.HandleFunc("/fcgi-bin/najukoffer/storchenkoffer", storchenkoffer.Get())
 		mux.HandleFunc("/fcgi-bin/najukoffer/landesverbaende", landesverbaende.Get())
+		mux.HandleFunc("/fcgi-bin/najukoffer/insektenrucksaecke", insektenrucksaecke.Get())
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {
