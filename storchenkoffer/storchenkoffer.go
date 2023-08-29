@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Storchkoffer_Ausleihstation&files=Storchenkoffer_Ausleihstationen.xlsx&downloadStartSecret=67dcesra3mm"
+var url = "https://cloud.naju.de/index.php/s/gyzEKGDCQ94prsL/download?path=%2F&files=Storchenkoffer_Ausleihstationen.xlsx&downloadStartSecret=62yfllnohf"
 
 type storchenkoffer struct {
 	Name         string  `xlsx:"0"`

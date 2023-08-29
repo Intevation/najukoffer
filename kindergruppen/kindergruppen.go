@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/HeAYwXkpz8skNnj/download?path=%2FNAJU_Gruppen_aktualisieren&files=Kindergruppen_Daten%20Website_05-2017.xlsx&downloadStartSecret=ldpuu0flwmj"
+var url = "https://cloud.naju.de/index.php/s/dSn77T6kCXfn9xj/download?path=%2F&files=Kindergruppen_Daten%20Website_05-2017.xlsx&downloadStartSecret=3ax0bkx9c13"
 
 type kindergruppe struct {
 	Stadtverband    string  `xlsx:"0"`
