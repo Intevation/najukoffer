@@ -15,6 +15,8 @@ import (
 	"github.com/BjoernSchilberg/najukoffer/landesverbaende"
 	"github.com/BjoernSchilberg/najukoffer/storchenkoffer"
 	"github.com/BjoernSchilberg/najukoffer/termine"
+	"github.com/BjoernSchilberg/najukoffer/projektpartner"
+	"github.com/BjoernSchilberg/najukoffer/konsultationskitas"
 	jwt "github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -107,6 +109,8 @@ func main() {
 		mux.HandleFunc("/storchenkoffer", storchenkoffer.Get())
 		mux.HandleFunc("/landesverbaende", landesverbaende.Get())
 		mux.HandleFunc("/insektenrucksaecke", insektenrucksaecke.Get())
+		mux.HandleFunc("/projektpartner", projektpartner.Get())
+		mux.HandleFunc("/konsultationskitas", konsultationskitas.Get())
 		log.Println("Listening on " + appAddr + "...")
 		//err = http.ListenAndServe(appAddr, requestLogger(mux))
 		// cors.Default() setup the middleware with default options being
@@ -125,6 +129,8 @@ func main() {
 		mux.HandleFunc("/fcgi-bin/najukoffer/storchenkoffer", storchenkoffer.Get())
 		mux.HandleFunc("/fcgi-bin/najukoffer/landesverbaende", landesverbaende.Get())
 		mux.HandleFunc("/fcgi-bin/najukoffer/insektenrucksaecke", insektenrucksaecke.Get())
+		mux.HandleFunc("/fcgi-bin/najukoffer/projektpartner", projektpartner.Get())
+		mux.HandleFunc("/fcgi-bin/najukoffer/konsultationskitas", konsultationskitas.Get())
 		err = fcgi.Serve(nil, mux)
 	}
 	if err != nil {
