@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/dSn77T6kCXfn9xj/download?path=%2F&files=Kindergruppen_Daten%20Website_05-2017.xlsx&downloadStartSecret=3ax0bkx9c13"
+var url = "https://cloud.naju.de/index.php/s/yfK9eoWP5m8ZYbE/download?path=%2FNAJU_Gruppen_aktualisieren&files=Kindergruppen_Daten%20Website_05-2017.xlsx&downloadStartSecret=up8q77rtwq"
 
 type kindergruppe struct {
 	Stadtverband    string  `xlsx:"0"`
@@ -41,7 +41,6 @@ func getData(url string) ([]kindergruppe, error) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-  //log.Println(string(body))
 
 	xlFile, err := xlsx.OpenBinary(body)
 	if err != nil {

@@ -12,9 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-// var url = "https://cloud.naju.de/..." // TODO
-// var url = "http://localhost:9080/projektpartner.xlsx" // TODO
-var url = "http://mapserver.nabu.de:9080/projektpartner.xlsx" // TODO: this is expecting `python3 -m http.server 9080` to be serving test files
+var url = "https://cloud.naju.de/index.php/s/yfK9eoWP5m8ZYbE/download?path=%2FKKN-Karte&files=projektpartner.xlsx&downloadStartSecret=bikemnr6r4j"
 
 type projektpartner struct {
 	Projektpartner     string  `xlsx:"1"`
