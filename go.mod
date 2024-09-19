@@ -1,4 +1,4 @@
-module github.com/BjoernSchilberg/najukoffer
+module github.com/Intevation/najukoffer
 
 go 1.13
 

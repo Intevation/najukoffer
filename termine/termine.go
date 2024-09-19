@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/BjoernSchilberg/najukoffer/helper"
+	"github.com/Intevation/najukoffer/helper"
 	geojson "github.com/paulmach/go.geojson"
 )
 
