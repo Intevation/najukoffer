@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/yfK9eoWP5m8ZYbE/download?path=%2FNAJU_Insektenrucksack_Ausleihstationen&files=NAJU_Ausleihstationen_Insektenrucksack.xlsx&downloadStartSecret=anltjezowne"
+var url = "https://cloud.naju.de/index.php/s/RPoqRCWJTkpXd3Q/download?path=%2FNAJU_Insektenrucksack_Ausleihstationen&files=NAJU_Ausleihstationen_Insektenrucksack.xlsx&downloadStartSecret=anltjezowne"
 
 type insektenrucksack struct {
 	Landesverband string  `xlsx:"0"`
