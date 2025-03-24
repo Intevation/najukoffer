@@ -12,8 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/RPoqRCWJTkpXd3Q/download?path=%2FNAJU_Landesverb%C3%A4nde&files=NAJU_Landesverband_Geschaeftsstellen.xlsx&downloadStartSecret=efzx17kjiy"
-
+var url = "https://cloud.naju.de/public.php/dav/files/RPoqRCWJTkpXd3Q/NAJU_Landesverb%C3%A4nde/NAJU_Landesverband_Geschaeftsstellen.xlsx"
 type landesverband struct {
 	Landesverband string  `xlsx:"0"`
 	Straße        string  `xlsx:"1"`

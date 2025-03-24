@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/JqqcHx3Z9ktZQDK/download?path=%2F&files=konsultationskitas.xlsx&downloadStartSecret=548e41183zj"
+var url = "https://cloud.naju.de/public.php/dav/files/RPoqRCWJTkpXd3Q/KKN-Karte/konsultationskitas.xlsx"
 
 type konsultationskita struct {
 	Name               string  `xlsx:"1"`

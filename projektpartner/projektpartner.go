@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/JqqcHx3Z9ktZQDK/download?path=%2F&files=projektpartner.xlsx&downloadStartSecret=548e41183zj"
+var url = "https://cloud.naju.de/public.php/dav/files/RPoqRCWJTkpXd3Q/KKN-Karte/projektpartner.xlsx"
 
 type projektpartner struct {
 	Projektpartner     string  `xlsx:"1"`
