@@ -12,7 +12,7 @@ import (
 	"github.com/tealeg/xlsx/v3"
 )
 
-var url = "https://cloud.naju.de/index.php/s/JqqcHx3Z9ktZQDK/download?path=%2F&files=Beispiele_guter_Praxis.xlsx&downloadStartSecret=ou7sz0vqb9j"
+var url = "https://cloud.naju.de/public.php/dav/files/RPoqRCWJTkpXd3Q/KKN-Karte/Beispiele_guter_Praxis.xlsx"
 
 type praxisbeispiel struct {
 	Name               string  `xlsx:"1"`
